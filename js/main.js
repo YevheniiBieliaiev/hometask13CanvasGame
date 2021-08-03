@@ -15,9 +15,20 @@ function animate() {
   }
   //случайная скорость
   let minSpeed = 1; // для целого числа
-  let maxSpeed = 3;// для целого числа
+  let maxSpeed = 4;// для целого числа
   function randomSpeed() {
-    return Math.floor(Math.random() * (maxSpeed - minSpeed)) + minSpeed;
+    return Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
+  }
+  //случайная интервал времени
+  function randomInterval() {
+    let minTime = 200;
+    let maxTime = 3000;
+    return Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+  }
+  //стоп рисования и очистка поля
+  function cleaner(variable) {
+    clearInterval(variable);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
   //массив для хранения объектов 
   let squareArr = [];
@@ -39,38 +50,20 @@ function animate() {
   }
 
 
-
-
   function draw() {
-
-
-
+    drawSquare(Square);
 
 
   }
 
-  //setInterval(draw, 500);
 
-
-  //рандомный интервал времени
-  function randomInterval() {
-    let minTime = 200;
-    let maxTime = 3000;
-    return Math.floor(Math.random() * (maxTime - minTime)) + maxTime;
-  }
-
-
-
-  // let btn = document.querySelector('button');
-  // btn.addEventListener('click', (event) => {
-  //   if (event.target.className === "start") {
-  //     timerID = setInterval(draw, randomInterval);
-  //   } else if (event.target.className === "stop") {
-  //   
-  //   }
-  // })
-
-
+  let timeID;
+  document.querySelector(".stop").addEventListener("click", event => {
+    if (event.target) { cleaner(timeID); }
+  });
+  document.querySelector(".start").addEventListener("click", event => {
+    if (event.target) { timeID = setInterval(draw, randomInterval()); }
+  });
   //requestAnimationFrame(animate);
 }
 
