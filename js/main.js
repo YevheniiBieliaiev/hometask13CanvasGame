@@ -19,7 +19,7 @@ function animate() {
   function randomSpeed() {
     return Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
   }
-  //случайная интервал времени
+  //случайный интервал времени
   function randomInterval() {
     let minTime = 200;
     let maxTime = 3000;
@@ -34,17 +34,18 @@ function animate() {
   let squareArr = [];
   //объек с параметрами
   const Square = {
-    x: randomX,
+    x: randomX(),
     y: 0,
     squareSide: 20,
-    color: randomColor,
-    ySpeed: randomSpeed
+    color: randomColor(),
+    ySpeed: randomSpeed()
   }
   //рисование квадрата
   function drawSquare(obj) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.rect(obj.x(), obj.y, obj.squareSide, obj.squareSide);
-    ctx.fillStyle = obj.color();
+    ctx.rect(obj.x, obj.y, obj.squareSide, obj.squareSide);
+    ctx.fillStyle = obj.color;
     ctx.fill();
     ctx.closePath();
   }
