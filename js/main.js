@@ -56,7 +56,7 @@ document.querySelector(".start").addEventListener("click", event => {
   if (event.target) {
     timeID = setInterval(function () {
       const square = {
-        x: randomNumber(startX, endColor),
+        x: randomNumber(startX, endX),
         y: 0,
         squareSide: squareSide,
         color: randomColor(),
