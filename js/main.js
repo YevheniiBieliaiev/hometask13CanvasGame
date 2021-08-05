@@ -4,8 +4,8 @@ const ctx = canvas.getContext('2d');
 //сторона квадрата
 let squareSide = 20;
 //переменные для случайной скорости
-let minSpeed = 1; // для целого числа
-let maxSpeed = 4;// для целого числа
+let minSpeed = 0.01;
+let maxSpeed = 0.2;
 //переменные для случайного интервала
 let minTime = 200;
 let maxTime = 3000;
@@ -21,12 +21,18 @@ function randomNumber(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+//функция для случайной скорости
+function randomSpd(min, max) {
+  return Math.random() * (max - min) + min;
+}
 //функция для рандомного цвета
 function randomColor() {
   return "rgb(" + randomNumber(starColor, endColor) + "," + randomNumber(starColor, endColor) + "," + randomNumber(starColor, endColor) + ")";
 }
 //массив для хранения объектов 
 let squares = [];
+//счет
+let scoreCounter = 0;
 
 
 function animate() {
@@ -41,12 +47,17 @@ function animate() {
     ctx.closePath();
   }
   function draw() {
-    for (let key of squares) {
-      drawSquare(key);
+    for (let i = 0; i < squares.length; i++) {
+      drawSquare(squares[i]);
+      if (squares[i].y <= canvas.height) {
+        squares[i].y += squares[i].ySpeed;
+      }
+      if (squares[i].y > canvas.height) {
+        squares.splice(i, 1);
+      }
     }
   }
   draw();
-
   requestAnimationFrame(animate);
 }
 
@@ -60,7 +71,7 @@ document.querySelector(".start").addEventListener("click", event => {
         y: 0,
         squareSide: squareSide,
         color: randomColor(),
-        ySpeed: randomNumber(minSpeed, maxSpeed)
+        ySpeed: randomSpd(minSpeed, maxSpeed),
       };
       squares.push(square);
       animate();
@@ -69,9 +80,21 @@ document.querySelector(".start").addEventListener("click", event => {
 });
 //остановка и очистка поля
 document.querySelector(".stop").addEventListener("click", event => {
-  if (event.target) { clearInterval(timeID); }
+  if (event.target) {
+    clearInterval(timeID);
+    squares.splice(0);
+    document.querySelector("#score").textContent = 0;
+  }
 });
 
-
-canvas.addEventListener('click', (event) => { });
+canvas.addEventListener('click', (event) => {
+  squares.map((item, index) => {
+    if ((event.offsetX > item.x && event.offsetY > item.y) &&
+      (event.offsetX < item.x + squareSide && event.offsetY < item.y + squareSide)) {
+      squares.splice(index, 1);
+      document.querySelector("#score").textContent = ++scoreCounter;
+    }
+  })
+});
 document.body.onload = animate;
+
