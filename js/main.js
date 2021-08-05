@@ -4,8 +4,8 @@ const ctx = canvas.getContext('2d');
 //сторона квадрата
 let squareSide = 20;
 //переменные для случайной скорости
-let minSpeed = 0.01;
-let maxSpeed = 0.2;
+let minSpeed = 0.5;
+let maxSpeed = 2;
 //переменные для случайного интервала
 let minTime = 200;
 let maxTime = 3000;
@@ -74,7 +74,6 @@ document.querySelector(".start").addEventListener("click", event => {
         ySpeed: randomSpd(minSpeed, maxSpeed),
       };
       squares.push(square);
-      animate();
     }, randomNumber(minTime, maxTime));
   }
 });
