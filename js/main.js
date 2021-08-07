@@ -51,8 +51,7 @@ function animate() {
       drawSquare(squares[i]);
       if (squares[i].y <= canvas.height) {
         squares[i].y += squares[i].ySpeed;
-      }
-      if (squares[i].y > canvas.height) {
+      } else {
         squares.splice(i, 1);
       }
     }
